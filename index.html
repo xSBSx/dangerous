@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy Birthday</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%82%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --cream: #FFF6F0;
+  --blush: #F7CAD0;
+  --rose-gold: #B76E79;
+  --rose-gold-dark: #8F5560;
+  --gold: #E8B87D;
+  --plum: #5B2C3E;
+  --coral: #F3A18C;
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Nunito', sans-serif;
+}
+
+*{ box-sizing: border-box; }
+
+html{ scroll-behavior: smooth; }
+
+body{
+  margin: 0;
+  background: var(--cream);
+  color: var(--plum);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+section, header, footer{
+  position: relative;
+  padding-left: max(6vw, env(safe-area-inset-left));
+  padding-right: max(6vw, env(safe-area-inset-right));
+}
+
+h1, h2{ font-family: var(--font-display); margin: 0; font-weight: 600; }
+
+p{ line-height: 1.65; }
+
+button{ font-family: inherit; }
+
+button:focus-visible, .photo-card:focus-visible{
+  outline: 3px solid var(--rose-gold-dark);
+  outline-offset: 4px;
+}
+
+/* ---------- ambient background blobs ---------- */
+.blob{
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0.55;
+  z-index: 0;
+  pointer-events: none;
+}
+.blob-1{ width: 60vw; height: 60vw; max-width: 420px; max-height: 420px; background: var(--blush); top: -10%; left: -20%; animation: drift1 16s ease-in-out infinite alternate; }
+.blob-2{ width: 50vw; height: 50vw; max-width: 360px; max-height: 360px; background: var(--gold); top: 30%; right: -18%; animation: drift2 20s ease-in-out infinite alternate; }
+.blob-3{ width: 45vw; height: 45vw; max-width: 320px; max-height: 320px; background: var(--coral); bottom: 5%; left: -12%; opacity: 0.4; animation: drift1 18s ease-in-out infinite alternate-reverse; }
+
+@keyframes drift1{ from{ transform: translate(0,0) scale(1); } to{ transform: translate(4vw, 3vh) scale(1.08); } }
+@keyframes drift2{ from{ transform: translate(0,0) scale(1); } to{ transform: translate(-3vw, 4vh) scale(0.95); } }
+
+/* ---------- hero ---------- */
+.hero{
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: env(safe-area-inset-top);
+}
+
+.hero-eyebrow{
+  position: relative; z-index: 1;
+  font-size: clamp(1rem, 3.5vw, 1.25rem);
+  color: var(--rose-gold-dark);
+  font-family: var(--font-display);
+  font-style: italic;
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  animation: riseIn 0.9s cubic-bezier(.22,1,.36,1) 0.15s forwards;
+}
+
+.hero-name{
+  position: relative; z-index: 1;
+  font-size: clamp(3rem, 15vw, 6.5rem);
+  line-height: 1.02;
+  background: linear-gradient(120deg, var(--rose-gold) 10%, var(--gold) 55%, var(--coral) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0;
+  transform: translateY(18px);
+  animation: riseIn 1s cubic-bezier(.22,1,.36,1) 0.35s forwards;
+}
+
+.hero-sub{
+  position: relative; z-index: 1;
+  max-width: 30ch;
+  font-size: clamp(1rem, 4vw, 1.15rem);
+  margin-top: 1.1rem;
+  color: var(--plum);
+  opacity: 0;
+  animation: riseIn 0.9s cubic-bezier(.22,1,.36,1) 0.6s forwards;
+}
+
+@keyframes riseIn{ to{ opacity: 1; transform: translateY(0); } }
+
+.scroll-cue{
+  position: relative; z-index: 1;
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  color: var(--rose-gold-dark);
+  cursor: pointer;
+  padding: 0.5rem;
+  opacity: 0;
+  animation: riseIn 0.9s ease 0.9s forwards;
+}
+.scroll-cue svg{ animation: bob 1.8s ease-in-out infinite; }
+@keyframes bob{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(7px); } }
+
+/* ---------- section headings ---------- */
+.section-heading{
+  font-size: clamp(1.6rem, 6vw, 2.2rem);
+  text-align: center;
+  max-width: 20ch;
+  margin: 0 auto 2.2rem;
+  position: relative; z-index: 1;
+}
+
+section.stack{ padding-top: 4.5rem; padding-bottom: 4.5rem; }
+
+/* ---------- envelope ---------- */
+.envelope-wrap{ display: flex; justify-content: center; position: relative; z-index: 1; }
+
+.envelope{
+  position: relative;
+  width: min(340px, 82vw);
+  aspect-ratio: 3 / 2;
+  perspective: 1200px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.envelope-back{
+  position: absolute; inset: 0;
+  background: linear-gradient(150deg, var(--blush), var(--rose-gold));
+  border-radius: 10px;
+  box-shadow: 0 24px 48px -12px rgba(91,44,62,0.35);
+}
+
+.envelope-letter{
+  position: absolute;
+  left: 7%; right: 7%; top: 10%; bottom: 7%;
+  background: var(--cream);
+  border-radius: 8px;
+  padding: 1.1rem 1.2rem;
+  overflow-y: auto;
+  text-align: left;
+  font-size: 0.98rem;
+  transform: translateY(8%);
+  opacity: 0;
+  box-shadow: 0 14px 30px rgba(91,44,62,0.18);
+  transition: transform 0.55s cubic-bezier(.22,1,.36,1) 0.12s, opacity 0.4s ease 0.12s;
+  z-index: 2;
+}
+
+.envelope-flap{
+  position: absolute; top: 0; left: 0; right: 0; height: 56%;
+  background: linear-gradient(150deg, var(--rose-gold), var(--rose-gold-dark));
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  border-radius: 10px 10px 0 0;
+  transform-origin: top center;
+  transition: transform 0.65s cubic-bezier(.34,1.56,.64,1);
+  z-index: 3;
+}
+
+.envelope[aria-expanded="true"] .envelope-flap{ transform: rotateX(180deg); z-index: 1; }
+.envelope[aria-expanded="true"] .envelope-letter{ transform: translateY(-16%); opacity: 1; }
+
+.envelope-hint{
+  position: absolute; z-index: 4; left: 0; right: 0; bottom: -2.2rem;
+  text-align: center; font-size: 0.85rem; color: var(--rose-gold-dark);
+  transition: opacity 0.3s ease;
+}
+.envelope[aria-expanded="true"] .envelope-hint{ opacity: 0; }
+
+/* ---------- gallery ---------- */
+.gallery-scroll{
+  display: flex;
+  gap: 1.4rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 1.5rem 8vw 1rem;
+  margin: 0 -6vw;
+  position: relative; z-index: 1;
+  scrollbar-width: none;
+}
+.gallery-scroll::-webkit-scrollbar{ display: none; }
+
+.photo-card{
+  flex: 0 0 68vw;
+  max-width: 270px;
+  scroll-snap-align: center;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  transform: rotate(var(--r, -2deg));
+  transition: transform 0.35s cubic-bezier(.22,1,.36,1);
+}
+.photo-card:nth-child(odd){ --r: -3deg; }
+.photo-card:nth-child(even){ --r: 2.5deg; }
+.photo-card:active, .photo-card.tapped{ transform: rotate(0deg) scale(1.04); }
+
+.photo-frame{
+  background: #fff;
+  border-radius: 6px;
+  padding: 0.6rem 0.6rem 1.1rem;
+  box-shadow: 0 18px 34px -10px rgba(91,44,62,0.28);
+}
+
+.photo-img-box{
+  aspect-ratio: 1 / 1;
+  border-radius: 3px;
+  overflow: hidden;
+  background: linear-gradient(150deg, var(--blush), #fff 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.photo-img-box img{ width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-img-box svg{ opacity: 0.55; }
+
+.photo-caption{
+  display: block;
+  margin-top: 0.6rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.95rem;
+  text-align: center;
+  color: var(--plum);
+}
+
+.gallery-dots{
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  position: relative; z-index: 1;
+  margin-top: 0.5rem;
+}
+.gallery-dots span{
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--blush);
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+.gallery-dots span.active{ background: var(--rose-gold); transform: scale(1.3); }
+
+/* ---------- wish / confetti ---------- */
+.wish{ text-align: center; }
+
+.balloon-btn{
+  position: relative; z-index: 1;
+  width: 128px; height: 150px;
+  margin: 0 auto;
+  border: none;
+  cursor: pointer;
+  background: none;
+  padding: 0;
+  display: block;
+}
+.balloon-btn svg{ width: 100%; height: 100%; transition: transform 0.25s cubic-bezier(.34,1.56,.64,1); filter: drop-shadow(0 14px 20px rgba(91,44,62,0.25)); }
+.balloon-btn:active svg{ transform: scale(0.92); }
+.balloon-btn .float{ animation: floaty 3.2s ease-in-out infinite; }
+@keyframes floaty{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-10px); } }
+
+.wish-hint{
+  position: relative; z-index: 1;
+  margin-top: 1.2rem;
+  color: var(--rose-gold-dark);
+  font-size: 0.95rem;
+}
+
+.wish-message{
+  position: relative; z-index: 1;
+  max-width: 34ch;
+  margin: 1.5rem auto 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 4.5vw, 1.4rem);
+  font-style: italic;
+  color: var(--plum);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(.22,1,.36,1);
+}
+.wish-message.shown{ opacity: 1; transform: translateY(0); }
+
+#confetti-canvas{
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* ---------- footer ---------- */
+footer{
+  text-align: center;
+  padding-top: 3rem;
+  padding-bottom: calc(3.5rem + env(safe-area-inset-bottom));
+}
+.sign-off{ font-size: 1rem; color: var(--rose-gold-dark); }
+.sign-name{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.6rem, 6vw, 2rem);
+  margin-top: 0.3rem;
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior: auto; }
+  .blob, .balloon-btn .float, .scroll-cue svg{ animation: none !important; }
+  .hero-eyebrow, .hero-name, .hero-sub, .scroll-cue{ animation: none !important; opacity: 1 !important; transform: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<header class="hero">
+  <p class="hero-eyebrow">Happy birthday</p>
+  <h1 class="hero-name" id="hero-name">Mom</h1>
+  <p class="hero-sub" id="hero-sub">The world got so much brighter the day you were born.</p>
+  <button class="scroll-cue" id="scroll-cue" aria-label="Scroll down">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 4v14m0 0-6-6m6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</header>
+
+<section class="stack" id="message-section">
+  <h2 class="section-heading">A little something for you</h2>
+  <div class="envelope-wrap">
+    <button class="envelope" id="envelope" aria-expanded="false" aria-label="Open your birthday letter">
+      <div class="envelope-back"></div>
+      <div class="envelope-letter" id="letter"></div>
+      <div class="envelope-flap"></div>
+      <span class="envelope-hint">Tap to open</span>
+    </button>
+  </div>
+</section>
+
+<section class="stack" id="gallery-section">
+  <h2 class="section-heading">A few of my favorite memories</h2>
+  <div class="gallery-scroll" id="gallery"></div>
+  <div class="gallery-dots" id="gallery-dots"></div>
+</section>
+
+<section class="stack wish">
+  <h2 class="section-heading">Make a wish</h2>
+  <button class="balloon-btn" id="balloon" aria-label="Tap for a surprise">
+    <svg class="float" viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="balloonGrad" cx="35%" cy="30%" r="75%">
+          <stop offset="0%" stop-color="#F7CAD0"/>
+          <stop offset="60%" stop-color="#B76E79"/>
+          <stop offset="100%" stop-color="#8F5560"/>
+        </radialGradient>
+      </defs>
+      <path d="M50 5C25 5 12 28 12 50c0 24 17 44 38 48 21-4 38-24 38-48C88 28 75 5 50 5Z" fill="url(#balloonGrad)"/>
+      <path d="M50 98l-5 8 5 6 5-6-5-8Z" fill="#8F5560"/>
+      <line x1="50" y1="110" x2="50" y2="128" stroke="#C9A9A9" stroke-width="1.5"/>
+    </svg>
+  </button>
+  <p class="wish-hint">Tap the balloon</p>
+  <p class="wish-message" id="wish-message"></p>
+</section>
+
+<canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+<footer>
+  <p class="sign-off">Mit ganz viel Liebe,</p>
+  <p class="sign-name" id="from-name">Me</p>
+</footer>
+
+<script>
+
+const CONFIG = {
+  name: "Mumma",                 // ← her name or nickname
+  fromName: "Sidakbir Singh",              // ← your name
+  heroLine: "The world got so much brighter the day you were born.",
+
+  // The letter inside the envelope. Use \n\n for a new paragraph.
+  message:
+    "Happy birthday to the person who taught me almost everything I know, " +
+    "and put up with me while I learned the rest.\n\n" +
+    "This year I thought since i learned so much of unnecessary coding, " +
+    "why not use it for something better. So instead of continuing the years of making physical cards, " +
+    "I figured I'd build you a little page instead. " +
+    "Hope you dont hate it! \n\n" +
+    "Here's to another year of you getting a card from me, digitally this time. 🎂💖",
+
+  // The line revealed after tapping the balloon.
+  wishMessage: "Here's to another year of you being wonderfully you!💗🎊",
+
+  
+  photos: [
+    { src: "IMG-20260913-WA0032.jpg", caption: "Angel 🪽" },
+    { src: "IMG-20260913-WA0027.jpg", caption: "Thai 👒" },
+    { src: "IMG-20260913-WA0025.jpg", caption: "Captain 👩‍✈️" },
+    { src: "IMG-20260913-WA0031.jpg", caption: "Little 👧" },
+    { src: "IMG-20260913-WA0034.jpg", caption: "Coastal 🏖️" },
+    { src: "IMG-20260913-WA0028.jpg", caption: "Gang Leader 🦹‍♀️" }
+  ]
+};
+
+
+document.getElementById('hero-name').textContent = CONFIG.name;
+document.getElementById('hero-sub').textContent = CONFIG.heroLine;
+document.getElementById('from-name').textContent = CONFIG.fromName;
+document.getElementById('wish-message').textContent = CONFIG.wishMessage;
+
+const letterEl = document.getElementById('letter');
+CONFIG.message.split('\n\n').forEach(paragraph => {
+  const p = document.createElement('p');
+  p.style.margin = '0 0 0.8rem';
+  p.textContent = paragraph;
+  letterEl.appendChild(p);
+});
+
+document.getElementById('scroll-cue').addEventListener('click', () => {
+  document.getElementById('message-section').scrollIntoView({ behavior: 'smooth' });
+});
+
+const envelope = document.getElementById('envelope');
+envelope.addEventListener('click', () => {
+  const open = envelope.getAttribute('aria-expanded') === 'true';
+  envelope.setAttribute('aria-expanded', String(!open));
+});
+
+/* ---------- gallery ---------- */
+const cameraIcon = `<svg width="46" height="46" viewBox="0 0 24 24" fill="none"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z" stroke="#B76E79" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" stroke="#B76E79" stroke-width="1.5"/></svg>`;
+
+const galleryEl = document.getElementById('gallery');
+const dotsEl = document.getElementById('gallery-dots');
+
+CONFIG.photos.forEach((photo, i) => {
+  const card = document.createElement('button');
+  card.className = 'photo-card';
+  card.setAttribute('aria-label', photo.caption || `Memory ${i + 1}`);
+
+  const frame = document.createElement('div');
+  frame.className = 'photo-frame';
+
+  const imgBox = document.createElement('div');
+  imgBox.className = 'photo-img-box';
+  imgBox.innerHTML = photo.src
+    ? `<img src="${photo.src}" alt="${photo.caption || ''}" loading="lazy">`
+    : cameraIcon;
+  frame.appendChild(imgBox);
+
+  const caption = document.createElement('span');
+  caption.className = 'photo-caption';
+  caption.textContent = photo.caption || 'Add a memory';
+  frame.appendChild(caption);
+
+  card.appendChild(frame);
+  card.addEventListener('click', () => {
+    card.classList.toggle('tapped');
+  });
+  galleryEl.appendChild(card);
+
+  const dot = document.createElement('span');
+  if (i === 0) dot.classList.add('active');
+  dotsEl.appendChild(dot);
+});
+
+let scrollTimeout;
+galleryEl.addEventListener('scroll', () => {
+  clearTimeout(scrollTimeout);
+  scrollTimeout = setTimeout(() => {
+    const cardWidth = galleryEl.firstElementChild.getBoundingClientRect().width + 22.4;
+    const index = Math.round(galleryEl.scrollLeft / cardWidth);
+    [...dotsEl.children].forEach((d, i) => d.classList.toggle('active', i === index));
+  }, 60);
+});
+
+/* ---------- confetti ---------- */
+const canvas = document.getElementById('confetti-canvas');
+const ctx = canvas.getContext('2d');
+function resizeCanvas(){ canvas.width = innerWidth; canvas.height = innerHeight; }
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+const confettiColors = ['#B76E79', '#E8B87D', '#F3A18C', '#F7CAD0'];
+let particles = [];
+let animating = false;
+
+function spawnConfetti(x, y){
+  for (let i = 0; i < 90; i++){
+    particles.push({
+      x, y,
+      vx: (Math.random() - 0.5) * 9,
+      vy: Math.random() * -11 - 3,
+      size: Math.random() * 6 + 4,
+      color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+      rotation: Math.random() * 360,
+      vr: (Math.random() - 0.5) * 12,
+      shape: Math.random() > 0.5 ? 'circle' : 'rect',
+      life: 1
+    });
+  }
+  if (!animating){ animating = true; requestAnimationFrame(animateConfetti); }
+}
+
+function animateConfetti(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.vy += 0.25;
+    p.x += p.vx;
+    p.y += p.vy;
+    p.rotation += p.vr;
+    p.life -= 0.008;
+    ctx.save();
+    ctx.globalAlpha = Math.max(p.life, 0);
+    ctx.translate(p.x, p.y);
+    ctx.rotate((p.rotation * Math.PI) / 180);
+    ctx.fillStyle = p.color;
+    if (p.shape === 'circle'){
+      ctx.beginPath();
+      ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+    }
+    ctx.restore();
+  });
+  particles = particles.filter(p => p.life > 0 && p.y < canvas.height + 50);
+  if (particles.length > 0){
+    requestAnimationFrame(animateConfetti);
+  } else {
+    animating = false;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+}
+
+const balloonBtn = document.getElementById('balloon');
+const wishMessageEl = document.getElementById('wish-message');
+balloonBtn.addEventListener('click', () => {
+  const rect = balloonBtn.getBoundingClientRect();
+  spawnConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2);
+  wishMessageEl.classList.add('shown');
+});
+</script>
+</body>
+</html>
